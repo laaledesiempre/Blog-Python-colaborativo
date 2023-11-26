@@ -13,5 +13,3 @@ Es posible cambiar elementos, esto es solo indicativo.
 | ~~Fecha y hora de lanzamiento automático~~ 	| ~~Sistema de lanzamiento automático~~ 	| No        	|
 | Tags/etiquetas                         	| Sistema de etiquetas temáticas    	| Sí        	|
 
-
-Tabla generada con [Generador de tablas en markdown](https://www.tablesgenerator.com/markdown_tables "Redirigiendo").
