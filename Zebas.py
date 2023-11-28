@@ -1,10 +1,10 @@
 import sqlite3
 
 
-class CursorBdD:
+class CursorBdD():
     def __init__(self):
         # Primero hay que crear la conección a la Base de datos
-        self.conexion = sqlite3.connect("Blog-Python-colaborativo/Zzebas/basedatos.sqlite")
+        self.conexion = sqlite3.connect("Blog-Python-colaborativo/Zebas.sqlite")
 
         # Crear el cursor que se encarga de las tareas
         self.cursor = self.conexion.cursor()
@@ -12,15 +12,15 @@ class CursorBdD:
 
         self.text = """CREATE TABLE IF NOT EXISTS posteos (
                 idPost INTEGER PRIMARY KEY AUTOINCREMENT,
-                titulo VARCHAR(45) NOT NULL,
-                contenido TEXT NOT NULL,
-                autor VARCHAR (30)  NOT NULL,
-                fecha DATE NOT NULL,
-                imagen VARCHAR (45) NOT NULL,
-                tags VARCHAR (45) NOT NULL
+                titulo,
+                contenido,
+                autor,
+                fecha,
+                imagen,
+                tags
                 );
                 """
-        
+    
         self.cursor.execute(self.text)
         self.conexion.commit()
 
@@ -36,39 +36,59 @@ class CursorBdD:
     def desconectar(self):
         self.conexion.close()
         print("Desconectado")
-
-class Datos(CursorBdD):
+#
+class Articulo():
     def __init__(self,titulo,contenido,autor,fecha,imagen,tags):
-        super().__init__()
         self.titulo = titulo
         self.contenido = contenido
         self.autor = autor
         self.fecha = fecha
         self.imagen = imagen
         self.tags = tags
+    
+    def imprimirA(self):
+        print(self.titulo)
+        print(self.contenido)
+        print(self.autor)
+        print(self.fecha)
+        print(self.imagen)
+        print(self.tags)
+#
 
-    def insertar(self):
+class Datos(CursorBdD):
+
+    def crearArticulo(self,titulo,contenido,autor,fecha,imagen,tags):
+        return Articulo(titulo,contenido,autor,fecha,imagen,tags)
+    
+    def insertar(self,articulo):
         text = """INSERT INTO posteos (titulo,contenido,autor,fecha,imagen,tags) VALUES  (?,?,?,?,?,?);"""
-        data = (self.titulo, self.contenido,self.autor,self.fecha,self.imagen,self.tags)
+        data = (articulo.titulo, articulo.contenido,articulo.autor,articulo.fecha,articulo.imagen,articulo.tags)
 
         self.cursor.execute(text, data)
-        # self.cursor.execute("""INSERT INTO posteos (titulo,contenido,autor,fecha,imagen,tags) VALUES  (?,?,?,?,?,?);""",("titulo","contenido","autor","fecha","imagen","tags"))
 
+    # Esta función es únicamente informativa, TOTALMENTE innecesaria, sólo la utilizo para visualisar la consulta realizada
+    def imprimir(self,articulo):
+        text = """INSERT INTO posteos (titulo,contenido,autor,fecha,imagen,tags) VALUES  (?,?,?,?,?,?);"""
+        data = (articulo.titulo, articulo.contenido,articulo.autor,articulo.fecha,articulo.imagen,articulo.tags)
+        print(text, data)
+        
     def leer(self):
         self.cursor.execute("""SELECT * FROM posteos""")
-        post = self.cursor.fetchall()
-        print(post)
-
+        elementos = self.cursor.fetchall()
+        for post in elementos:
+            print(post)
+#
 
 
 
 con = CursorBdD()
+datos = Datos()
+art = datos.crearArticulo("titulo","contenido","autor","fecha","imagen","tags")
 
-datos = Datos("titulo","contenido","autor","fecha","imagen","tags")
 
-datos.insertar()
+datos.insertar(art)
 datos.comitear()
-datos.imprimir()
+datos.imprimir(art)
 
-
+datos.leer()
 con.desconectar()
