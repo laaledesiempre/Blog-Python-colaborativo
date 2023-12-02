@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Flask and SQLite </title>
+	</head>
+
+	<body>
+
+	<h1>Lista de Blogs</h1>
+
+	{%for blog in data%}
+
+				<h2>{{blog[2]}}</h2>
+				<p>Tipo de contenido: {{blog[1]}}</p>
+				<p>{{blog[3]}}</p>
+				<p>Autor: {{blog[4]}}</p>
+				<p>Fecha: {{blog[5]}}</p>
+				<p>Palabras claves: {{blog[6]}}</p>
+				<hr>
+	{%endfor%}
+
+	</body>
+</html>
